@@ -13,8 +13,8 @@ requirements = [
 	"pyopengl >= 3.1.0",
 	"visvis >= 1.9.1",
 	"numpy >= 1.6.1",
-	"matplotlib",
-	"pysettings >= 0.1"
+	"matplotlib"
+#	"pysettings >= 0.1"
 ]
 
 setup(

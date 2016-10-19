@@ -17,7 +17,9 @@ import os
 import inspect, platform
 import logging
 from PyQt4 import QtGui, QtCore
-from pysettings import conf
+#from pysettings import conf
+from pyforms import settings
+conf = settings
 
 from pyforms.gui.Controls.ControlDockWidget import ControlDockWidget
 

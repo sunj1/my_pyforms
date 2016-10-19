@@ -14,7 +14,10 @@ from PyQt4.QtOpenGL import QGLWidget
 from PyQt4 import QtCore
 import OpenGL.GL as GL
 import OpenGL.GLU as GLU
-from pysettings import conf
+#from pysettings import conf
+from pyforms import settings
+conf = settings
+
 try:
 	import cv2
 except:

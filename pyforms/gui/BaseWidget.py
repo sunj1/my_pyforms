@@ -19,8 +19,9 @@ import subprocess
 import time, sys
 from datetime import datetime, timedelta
 from PyQt4 import QtGui, QtCore
-from pysettings import conf
-
+#from pysettings import conf
+from pyforms import settings
+conf = settings
 
 class FlushFile(object):
 	"""Write-only flushing wrapper for file-type objects."""
