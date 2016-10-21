@@ -278,7 +278,10 @@ class ControlList(ControlBase, QWidget):
         result = []
         for index in self.tableWidget.selectedIndexes():
             result.append(index.row())
-        return list(set(result))
+	    result = list(set(result))
+	    result.sort()
+	    result.reverse()
+        return result
 
     @property
     def mouseSelectedRowIndex(self):
