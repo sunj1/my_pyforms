@@ -7,6 +7,7 @@
 import logging
 import os
 
+import PyQt4
 from PyQt4 import uic, QtCore
 from PyQt4.QtGui import QWidget, QIcon, QTableWidgetItem, QAbstractItemView
 
@@ -63,6 +64,9 @@ class ControlList(ControlBase, QWidget):
         self.tableWidget.cellDoubleClicked.connect(self.tableWidgetCellDoubleClicked)
         self.tableWidget.model().dataChanged.connect(self._dataChangedEvent)
 
+	self.tableWidget.originalKeyPressEvent = self.tableWidget.keyPressEvent
+	self.tableWidget.keyPressEvent = self.new_keyPressEvent
+
         if plusFunction is None and minusFunction is None:
             self.bottomBar.hide()
         elif plusFunction is None:
@@ -74,6 +78,34 @@ class ControlList(ControlBase, QWidget):
         else:
             self.plusButton.pressed.connect(plusFunction)
             self.minusButton.pressed.connect(minusFunction)
+
+
+    def new_keyPressEvent(self, event):
+	if event.matches(PyQt4.QtGui.QKeySequence.Copy):
+		if len(self.tableWidget.selectedIndexes()) == 0:
+			self.tableWidget.originalKeyPressEvent(event)
+			return
+		tableArray = {}
+		for item in self.tableWidget.selectedIndexes():
+			cellItem = self.tableWidget.itemFromIndex(item)
+			point = str(item.row())+','+str(item.column())
+			cell = str(cellItem.text())
+			tableArray[point] = cell
+		pointKeys = tableArray.keys()
+		pointKeys.sort()
+		last_row = pointKeys[0].split(',')[0]
+		selection = ''
+		for p in pointKeys:
+			r = p.split(',')[0]
+			if last_row != r:
+				selection = selection[:-1] + '\n'
+			selection += tableArray[p] + '\t'
+			last_row = r
+		selection = selection[:-1] + '\n'
+		PyQt4.QtGui.QApplication.clipboard().setText(selection)
+	else:
+		self.tableWidget.originalKeyPressEvent(event)
+
 
     def empty_signal(self, *args, **kwargs):
         """
@@ -323,6 +355,7 @@ class ControlList(ControlBase, QWidget):
     @selectionChangedFname.setter
     def selectionChangedFname(self, value):
         self.tableWidget._selectionChangedFname = value
+
 
 
 
