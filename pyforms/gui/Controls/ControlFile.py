@@ -34,6 +34,7 @@ class ControlFile(ControlText):
 			self._form, self._label, self.value))
         if value:
             self.value = value
+	return value
 
     @property
     def parent(self): return ControlText.parent.fget(self, value)
